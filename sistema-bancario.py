@@ -8,6 +8,16 @@ def menu():
 
     => '''
 
+def depositar(valor, saldo, extrato):
+    if valor > 0:
+        saldo += valor
+        extrato += f'Depósito | R$ {valor:.2f}\n'
+        print(f'Deposito de R$ {valor:.2f} foi efetuado com sucesso, saldo total de R$ {saldo:.2f}.')
+    else:
+        print('Depósito negado! O valor depositado precisa ser maior do que zero.')
+
+    return saldo, extrato
+
 def main():
     saldo = 0
     limite = 500
@@ -21,12 +31,7 @@ def main():
 
         if opcao == 'd':
             valor = float(input('Digite o valor que deseja depositar: '))
-            if valor > 0:
-                saldo += valor
-                extrato += f'Depósito | R$ {valor:.2f}\n'
-                print(f'Deposito de R$ {valor:.2f} foi efetuado com sucesso, saldo total de R$ {saldo:.2f}.')
-            else:
-                print('Depósito negado! O valor depositado precisa ser maior do que zero.')
+            saldo, extrato = depositar(valor, saldo, extrato)
 
         elif opcao == 's':
             valor = float(input('Digite o valor que deseja sacar: '))
