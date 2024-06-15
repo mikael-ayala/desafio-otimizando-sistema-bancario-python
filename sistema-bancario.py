@@ -33,6 +33,11 @@ def sacar(*, valor, saldo, extrato, numero_saques, limite_saques):
 
     return saldo, extrato, numero_saques
 
+def exibir_extrato(saldo, /, *, extrato):
+    print('====== Extrato =======')
+    print(extrato)
+    print(f'Saldo    | R$ {saldo:.2f}')
+
 def main():
     saldo = 0
     limite = 500
@@ -53,9 +58,7 @@ def main():
             saldo, extrato, numero_saques = sacar(valor=valor, saldo=saldo, extrato=extrato, numero_saques=numero_saques, limite_saques=LIMITE_SAQUES)
             
         elif opcao == 'e':
-            print('====== Extrato =======')
-            print(extrato)
-            print(f'Saldo    | R$ {saldo:.2f}')
+            exibir_extrato(saldo, extrato=extrato)
 
         elif opcao == 'q':
             break
