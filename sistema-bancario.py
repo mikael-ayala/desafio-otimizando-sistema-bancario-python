@@ -18,6 +18,21 @@ def depositar(valor, saldo, extrato):
 
     return saldo, extrato
 
+def sacar(*, valor, saldo, extrato, numero_saques, limite_saques):
+    if valor > 0 and valor <= saldo and numero_saques < limite_saques:
+        saldo -= valor
+        extrato += f'Saque    | R$ {valor:.2f}\n'
+        numero_saques += 1
+        print(f'Saque de R$ {valor:.2f} foi efetuado com sucesso, saldo total de R$ {saldo:.2f}.')
+    elif numero_saques >= limite_saques:
+        print('Saque negado! Limite de saques diários excedido.')
+    elif valor > saldo:
+        print('Saque negado! Valor de saque excede o valor de saldo disponível.')
+    else:
+        print('Saque negado! Valor de saque deve ser um número positivo.')
+
+    return saldo, extrato, numero_saques
+
 def main():
     saldo = 0
     limite = 500
@@ -35,17 +50,7 @@ def main():
 
         elif opcao == 's':
             valor = float(input('Digite o valor que deseja sacar: '))
-            if valor > 0 and valor <= saldo and numero_saques < LIMITE_SAQUES:
-                saldo -= valor
-                extrato += f'Saque    | R$ {valor:.2f}\n'
-                numero_saques += 1
-                print(f'Saque de R$ {valor:.2f} foi efetuado com sucesso, saldo total de R$ {saldo:.2f}.')
-            elif numero_saques >= LIMITE_SAQUES:
-                print('Saque negado! Limite de saques diários excedido.')
-            elif valor > saldo:
-                print('Saque negado! Valor de saque excede o valor de saldo disponível.')
-            else:
-                print('Saque negado! Valor de saque deve ser um número positivo.')
+            saldo, extrato, numero_saques = sacar(valor=valor, saldo=saldo, extrato=extrato, numero_saques=numero_saques, limite_saques=LIMITE_SAQUES)
             
         elif opcao == 'e':
             print('====== Extrato =======')
