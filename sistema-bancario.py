@@ -4,6 +4,8 @@ def menu():
     [d] Depositar
     [s] Sacar
     [e] Extrato
+    [c] Cadastrar usuário
+    [l] Listar usuários
     [q] Sair
 
     => '''
@@ -38,12 +40,34 @@ def exibir_extrato(saldo, /, *, extrato):
     print(extrato)
     print(f'Saldo    | R$ {saldo:.2f}')
 
+def filtrar_usuario(cpf, usuarios):
+    usuarios_filtrados = [usuario for usuario in usuarios if usuario['cpf'] == cpf]
+    return usuarios_filtrados[0] if usuarios_filtrados else None
+
+def criar_usuario(usuarios):
+    cpf = input('Informe seu CPF (somente números): ')
+    usuario_existe = filtrar_usuario(cpf, usuarios)
+
+    if usuario_existe:
+        print('\n Erro! CPF já cadastrado.')
+        return
+
+    nome = input('Digite seu nome: ')
+    data_nascimento = input('Digite sua data de nascimento: ')
+    endereco = input('Digite seu endereço(logradouro, nro - bairro - cidade/sigla estado): ')
+
+    usuarios.append({"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "endereco": endereco})
+
+    print(f'\nParabéns {nome}, você foi cadastrado com sucesso!')
+
 def main():
     saldo = 0
     limite = 500
     extrato = ''
     numero_saques = 0
     LIMITE_SAQUES = 3
+
+    usuarios = []
 
     while True:
 
@@ -59,6 +83,12 @@ def main():
             
         elif opcao == 'e':
             exibir_extrato(saldo, extrato=extrato)
+
+        elif opcao == 'c':
+            criar_usuario(usuarios)
+
+        elif opcao == 'l':
+            print(usuarios)
 
         elif opcao == 'q':
             break
