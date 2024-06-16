@@ -6,6 +6,8 @@ def menu():
     [e] Extrato
     [c] Cadastrar usuário
     [l] Listar usuários
+    [cc] Criar conta
+    [lc] Listar contas
     [q] Sair
 
     => '''
@@ -60,14 +62,30 @@ def criar_usuario(usuarios):
 
     print(f'\nParabéns {nome}, você foi cadastrado com sucesso!')
 
+def criar_conta(agencia, numero_conta, usuarios):
+    cpf = input('Informe o CPF do usuário: ')
+    usuario_existe = filtrar_usuario(cpf, usuarios)
+
+    if not usuario_existe:
+        print('\n Erro! CPF não encontrado.')
+        return
+    
+    usuario = [usuario for usuario in usuarios if usuario['cpf'] == cpf]
+
+    return {'Agência': agencia, 'C/C': numero_conta, 'Nome Titular': usuario[0]['nome'], 'CPF Titular': usuario[0]['cpf']}
+
 def main():
     saldo = 0
     limite = 500
     extrato = ''
     numero_saques = 0
     LIMITE_SAQUES = 3
+    AGENCIA = "0001"
 
     usuarios = []
+    contas = []
+
+    numero_conta = 1
 
     while True:
 
@@ -89,6 +107,16 @@ def main():
 
         elif opcao == 'l':
             print(usuarios)
+
+        elif opcao == 'cc':
+            nova_conta = criar_conta(AGENCIA, numero_conta, usuarios)
+            if nova_conta:
+                contas.append(nova_conta)
+                numero_conta += 1
+                print('Conta criada com sucesso!')
+
+        elif opcao == 'lc':
+            print(contas)
 
         elif opcao == 'q':
             break
